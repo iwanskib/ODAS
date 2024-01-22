@@ -5,5 +5,5 @@ Aby uruchomić aplikację należy:
 3. docker-compose up -d
 4. otworzyć przeglądarkę i wpisać localhost/login
 
-Przykładowe konta: user, Password1$
-                   userr, Password2$
+Przykładowe konta: {user, Password1$}, {userr, Password2$}
+Klucze do danych wrażliwych takie same, jak hasła.
