@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+
+<header>
+    <h1>Dashboard</h1>
+    <nav>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        </form>
+
+    </nav>
+</header>
+
+<section>
+    <h3>Create Account</h3>
+    <form th:action="@{/create-account}" method="post">
+        <input type="text" name="accountNumber" placeholder="Enter Account Number" required />
+        <button type="submit">Create Account</button>
+    </form>
+    <p th:if="${message}" th:text="${message}">[Message]</p>
+    <h3>Informations</h3>
+    <div>
+        <p>You are logged in as: <span th:text="${#authentication.name}">Username</span></p>
+        <div th:if="${accountNumber}">
+            <p>Your account number is: <span th:text="${accountNumber}">[Account Number]</span></p>
+            <p>Your balance is: <span th:text="${balance}">[Balance]</span></p>
+        </div>
+    </div>
+    <h3>Transactions</h3>
+    <a href="/transactions" class="btn">View Transactions</a>
+    <div>
+        <h3>View Sensitive Data</h3>
+        <form th:action="@{/view-sensitive-data}" method="post">
+            <input type="password" name="encryptionKey" placeholder="Enter your key" required />
+            <button type="submit">View Sensitive Data</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        </form>
+    </div>
+    <div th:if="${sensitiveData != null}">
+        <h3>Sensitive Data</h3>
+        <p>Card Number: <span th:text="${sensitiveData.cardNumber}"></span></p>
+        <p>ID Card Number: <span th:text="${sensitiveData.idCardNumber}"></span></p>
+    </div>
+    <div th:if="${error != null}" th:text="${error}"></div>
+
+    <div>
+        <h3>Password change</h3>
+    <form th:action="@{/change-password}" method="post">
+        <input type="password" name="currentPassword" placeholder="Current Password" required />
+        <input type="password" name="newPassword" placeholder="New Password" required />
+        <input type="password" name="confirmPassword" placeholder="Confirm New Password" required />
+        <button type="submit">Change Password</button>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    </form>
+    <div th:if="${passwordChangeError != null}" th:text="${passwordChangeError}"></div>
+    </div>
+
+</section>
+
+<footer>
+    <p>&copy; 2024 BankApp</p>
+</footer>
+
+</body>
+</html>

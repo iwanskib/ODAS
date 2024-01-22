@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    environment:
+      - DATASOURCE_URL=jdbc:mysql://db:3306/odas?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - DATASOURCE_USERNAME=root
+      - DATASOURCE_PASSWORD=polak098
+    depends_on:
+      - db
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "443:443"
+      - "80:80"
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0.33
+    environment:
+      - MYSQL_DATABASE=odas
+      - MYSQL_ROOT_PASSWORD=polak098
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions</title>
+</head>
+<body>
+
+<header>
+    <h1>Transactions</h1>
+    <nav>
+        <a href="/dashboard" class="btn">Back to Dashboard</a>
+    </nav>
+</header>
+
+<section>
+    <h2>Make a Transaction</h2>
+    <form th:action="@{/process-transaction}" method="post">
+        <input type="text" name="targetAccountNumber" placeholder="Target Account Number" required />
+        <input type="number" name="amount" placeholder="Amount" min="0" step="0.01" required />
+        <input type="text" name="title" placeholder="Transaction Title" required />
+        <button type="submit">Transfer</button>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    </form>
+    <p th:if="${message}" th:text="${message}">[Message will be displayed here]</p>
+</section>
+
+<section>
+    <h2>Transaction History</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Target Account</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through transactions and display them here -->
+        <tr th:each="transaction : ${transactions}">
+            <td th:text="${transaction.createdAt}">[Date]</td>
+            <td th:text="${transaction.title}">[Title]</td>
+            <td th:text="${transaction.amount}">[Amount]</td>
+            <td th:text="${transaction.targetAccountNumber}">[Target Account]</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<footer>
+    <p>&copy; 2024 BankApp</p>
+</footer>
+
+</body>
+</html>
